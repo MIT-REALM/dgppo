@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="TODO: project description">
-  <meta name="keywords" content="TODO">
+        content="DGPPO">
+  <meta name="keywords" content="Multi-agent systems; Reinforcement Learning; Distributed control; Safe control; Control barrier functions; Graph neural networks">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TODO: title</title>
+  <title>DGPPO</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -18,13 +18,16 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.png">
+  <!-- <link rel="icon" href="./static/images/favicon.png"> -->
+  <link rel="icon" type="image/svg+xml" href="./static/images/favicon.svg" />
+  <link rel="icon" type="image/png" href="./static/images/favicon.png" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
+  <!-- <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+  <script src="./static/js/index.js"></script> -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 </head>
 <body>
 
@@ -38,7 +41,7 @@
   </div>
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
+      <a class="navbar-item" href="https://syzhang092218-source.github.io/">
       <span class="icon">
           <i class="fas fa-home"></i>
       </span>
@@ -49,15 +52,22 @@
           More Research
         </a>
         <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://mit-realm.github.io/gcbfplus-website/">
+            GCBF+: A Neural Graph Control Barrier Function Framework for Distributed Safe Multi-Agent Control
+          </a>
+          <a class="navbar-item" href="https://mit-realm.github.io/gcbf-website/">
+            GCBFv0: Neural Graph Control Barrier Functions for Distributed Safe Multi-agent Control
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2311.13714">
+            Survey: Learning Safe Control for Multi-Robot Systems: Methods, Verification, and Open Challenges
+          </a>
+          <a class="navbar-item" href="https://mit-realm.github.io/neuriss-website/">
+            NeurISS: Learning stabilizing controllers for networked dynamical systems
+          </a>
           <a class="navbar-item" href="https://realm.mit.edu">
             REALM Website
           </a>
         </div>
-        <!-- <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://realm.mit.edu">
-            TODO: link to any other pages you want
-          </a>
-        </div> -->
       </div>
     </div>
 
@@ -70,14 +80,16 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">TODO: title</h1>
+          <h1 class="title is-1 publication-title">Discrete GCBF Proximal Policy Optimization for Multi-agent Safe Optimal Control</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://todo.mit.edu">TODO: author 1 name</a>,</span>
+              <a href="https://syzhang092218-source.github.io/">Songyuan Zhang</a>,</span>
+              <span class="author-block">
+                <a href="https://oswinso.xyz/">Oswin So</a>,</span>
             <span class="author-block">
-              <a href="https://todo.mit.edu">TODO: author 2 name</a>,</span>
+              <a href="https://www.blackmitchell.com//">Mitchell Black</a>,</span>
             <span class="author-block">
-              <a href="https://todo.mit.edu">TODO: author 3 name</a>,</span>
+              <a href="http://chuchu.mit.edu/">Chuchu Fan</a></span>
           </div>
 
           <div class="is-size-5 publication-authors">
@@ -88,7 +100,7 @@
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/TODO.pdf"
+                <a href="https://openreview.net/pdf?id=1X1R7P6yzt"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -96,17 +108,17 @@
                   <span>Paper</span>
                 </a>
               </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/TODO"
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2401.14554"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
                   </span>
                   <span>arXiv</span>
                 </a>
-              </span>
+              </span> -->
               <!-- Video Link. -->
-              <span class="link-block">
+              <!-- <span class="link-block">
                 <a href="https://youtu.be/TODO"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -123,10 +135,10 @@
                   </span>
                   <span>Presentation Video</span>
                 </a>
-              </span>
+              </span> -->
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/MIT-REALM/TODO"
+                <a href="https://github.com/MIT-REALM/dgppo/"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -146,21 +158,27 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./static/images/TODO.png"
-        class="center-image"
-        alt="TODO: alt text"/>
-      <h2 class="subtitle has-text-centered">
-        <br/>
-        TODO: headline caption
-      </h2>
+      <h2 class="title is-3"><center>DGPPO: How to extend CBFs elegantly for safe MARL.</center></h2>
+      <div class="hero-body">
+        <center>
+          <img width=24% src="./videos/LidarSpread.gif"
+          alt="LidarSpread"/>
+          <img width=24% src="./videos/LidarLine.gif"
+          alt="LidarLine"/>
+          <img width=24% src="./videos/VMASReverseTransport.gif"
+          alt="VMASReverseTransport"/>
+          <img width=24% src="./videos/VMASWheel.gif"
+          alt="VMASWheel"/>
+        </center>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="hero teaser">
   <div class="container is-max-desktop">
     <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
+    <!-- <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Video</h2>
         <div class="publication-video">
@@ -168,7 +186,7 @@
                   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--/ Paper video. -->
 
     <!-- Abstract. -->
@@ -177,10 +195,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            TODO: paragraph 1
-          </p>
-          <p>
-            TODO: paragraph 2
+            Control policies that can achieve high task performance and satisfy safety contraints are desirable for any system, including multi-agent systems (MAS). One promising technique for ensuring the safety of MAS is distributed control barrier functions (CBF). However, it is difficult to design distributed CBF-based policies for MAS that can tackle unknown discrete-time dynamics, partial observability, changing neighborhoods, and input constraints, especially when a distributed high-performance nominal policy that can achieve the task is unavailable. To tackle these challenges, we propose DGPPO, a new framework that simultaneously learns both a discrete graph CBF which handles neighborhood changes and input constraints, and a distributed high-performance safe policy for MAS with unknown discrete-time dynamics. We empirically validate our claims on a suite of multi-agent tasks spanning three different simulation engines. The results suggest that, compared with existing methods, our DGPPO framework obtains policies that achieve high task performance (matching baselines that ignore the safety constraints), and high safety rates (matching the most conservative baselines), with a constant set of hyperparameters across all environments.
           </p>
         </div>
       </div>
@@ -191,68 +206,171 @@
 
 
 <section class="section">
+  
   <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- TODO: Main point 1 -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">TODO: main point 1</h2>
-          <img src="./static/images/TODO.png"
-            class="center-image simulation-image"
-            alt="TODO: alt text"/>
-        </div>
-      </div>
-      <!--/ TODO: Main point 1 -->
-
-      <!-- TODO: Main point 2 -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">TODO: main point 2</h2>
-          <img src="./static/images/TODO.png"
-            class="center-image simulation-image"
-            alt="TODO: alt text"/>
-        </div>
-      </div>
-      <!--/ TODO: Main point 2 -->
-
-      <!-- TODO: Main point 3 -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">TODO: main point 3</h2>
-          <img src="./static/images/TODO.png"
-            class="center-image simulation-image"
-            alt="TODO: alt text"/>
-        </div>
-      </div>
-      <!--/ TODO: Main point 3 -->
-
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
+    <!-- Main point 1 -->
+    <h2 class="title is-3">Problem setting</h2>
+    <div class="column">
+      <div class="columns is-centered">
+        <img src="figs/problem_setting.jpg"
+          class="center-image"
+          style="padding: 0px 50px 0px 0px; max-width: 50%;"
+          alt="Problem setting"/>
           <p>
-            This work is part of a broader research thread around <emph>TODO</emph>, which allow us to TODO. TODO: e.g. For a survey of the field of learned certificates, see <a rel="survey" href="https://arxiv.org/pdf/2202.11762.pdf">this paper</a>.
+            We consider the multi-agent constrained optimal control problem with <b>discrete-time</b>, <b>unknown</b> dynamics, <b>partial observability</b>, <b>input constraints</b>, and <b>without</b> a known performant nominal policy. Given \(N\) agents, we aim at design distributed policies \(\mu_1, \dots, \mu_N\), such that:
+            <br><br>
+            The task is done: \(\min_{\mu_1,\dots,\mu_N} \sum_{k=0}^\infty l(\mathbf{x}^k, \mathbf{\mu}(\mathbf{x}^k))\),<br>
+            following the unknown dynamics: \(\mathbf{x}^{k+1} = f(\mathbf{x}^k, \mathbf{\mu}(\mathbf{x}^k))\), <br>
+            and the agents are safe: \(h_i^{(m)}(o_i^k)\leq 0, \quad o_i^k=O_i(\mathbf{x}^k)\)
           </p>
-          <p>
-            Other work on TODO from our lab include:
-            <ul>
-              <li><a href="TODO.mit.edu">example 1</a>.</li>
-            </ul>
-          </p>
-        </div>
       </div>
     </div>
-    <!--/ Concurrent Work. -->
+
+    <div class="column"></div>
+    <h2 class="title is-3">Safety: Discrete policy GCBF (DGCBF)</h2>
+    <div class="column">
+      <div class="columns is-centered">
+        <img src="figs/teaser.png"
+          class="center-image"
+          style="padding: 0px 50px 0px 0px; max-width: 48%;"
+          alt="GCBF"/>
+          <p>
+            DGCBF: safety guarantee for <b>unknown</b>, <b>discrete-time</b>, <b>partially observable</b> <b>multi-agent</b> systems.
+            <br><br>
+            Can be learned using <b>policy evaluation</b> with <b>deterministic rollouts</b>: 
+            <img src="figs/Learn_DGCBF.jpg" class="center-image">
+            <br>
+            Learn more about GCBF: Check our T-RO paper <a href="https://mit-realm.github.io/gcbfplus-website/">GCBF+</a>!
+          </p>
+      </div>
+    </div>
+
+    <div class="column"></div>
+    <h2 class="title is-3">DGPPO: Elegantly combine DGCBF with MARL</h2>
+    <div class="column">
+      <div class="content">
+        <img src="figs/algorithm_structure.jpg"
+          class="center-image"
+          width="90%"
+          alt="algorithm structure"/>
+      </div>
+    </div>
+    <p>
+      1. We perform a \(T\)-step <b>stochastic rollout</b> with the policy \(\boldsymbol{\pi}_\theta\). However, unlike MAPPO, we additionally perform a \(T\)-step <b>deterministic rollout</b> using a deterministic version of \(\boldsymbol{\pi}_\theta\) (by taking the mode), which we denote \(\boldsymbol\mu\), to learn the DGCBF.
+      <br>
+      2. We update the value functions via regression on the corresponding targets computed using GAE, where the targets for the cost-value function \(V^l\) uses the stochastic rollout and the targets for the constraint-value functions \(V^{h^{(m)},\boldsymbol\mu}\) use the deterministic rollout.
+      <br>
+      3. We update the policy \(\boldsymbol\pi_\theta\) by replacing the \(Q\)-function with its GAE, then combining the CRPO-style <i>decoupled</i> policy loss with the PPO clipped loss using the learned constraint-value functions \(V^{h^{(m)},\boldsymbol\mu}\) as the DGCBFs. 
+      <br>
+      <center>
+        \(\hat{C}^{(m)}_{\theta,i} := \max\left\{ 0,\, V^{h^{(m)},\boldsymbol\mu}(o_i^+) - V^{h^{(m)},\boldsymbol\mu}(o_i) + \alpha(V^{h^{(m)},\boldsymbol\mu}(o_i)) \right\}\)
+        <br>
+        \(\tilde{A}_i := A^{\text{GAE}} \unicode{x1D7D9}_{\max_m \hat{C}_{\theta,i}^{(m)} \leq 0} + 
+      \nu \max_m \hat{C}_{\theta ,i}^{(m)} \unicode{x1D7D9}_{\max_m \hat{C}_{\theta ,i}^{(m)} > 0}\)
+      </center>
+    </p>
+
+    <div class="column"></div>
+    <h2 class="title is-3">Simulation Environments</h2>
+    <div class="column">
+      <div class="content">
+        <img src="figs/LidarNav.jpg"
+          width="24%"
+          alt="LidarNav"/>
+          <img src="figs/LidarSpread.jpg"
+          width="24%"
+          alt="LidarSpread"/>
+          <img src="figs/LidarLine.jpg"
+          width="24%"
+          alt="LidarLine"/>
+          <img src="figs/LidarBicycle.jpg"
+          width="24%"
+          alt="LidarBicycle"/> 
+          <p align="center">
+            Lidar environments, where agents use LiDAR to detect obstacles.
+          </p>
+      </div>
+    </div>
+    <div class="column">
+      <div class="content">
+        <center>
+        <img src="figs/Transport.jpg"
+          width="24%"
+          alt="Transport"/>
+        <img src="figs/VMASWheel.jpg"
+          width="24%"
+          alt="VMASWheel"/>
+        <img src="figs/VMASTransport2.jpg"
+          width="24%"
+          alt="VMASTransport2"/>
+        </center>
+        <p align="center">
+          MuJoCo and VMAS environments, where contact dynamics are included.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main point 3 -->
+    <div class="column"></div>
+    <h2 class="title is-3">Numerical Results</h2>
+    <div class="column">
+      <div class="content">
+        <img src="figs/safe_cost_main.jpg"
+          class="center-image"
+          width="100%"
+          alt="main results"/>
+      </div>
+      <p align="center">
+        <b>Comparison on \(N=3\) agents.</b> DGPPO has the best performance by being closest to the top left corner. 
+      </p>
+    </div>
+    <div class="column">
+      <div class="content">
+        <img src="figs/train_main.jpg"
+          class="center-image"
+          width="100%"
+          alt="training stability"/>
+      </div>
+      <p align="center">
+        <b>Training stability.</b> DGPPO yields smoother training curves compared to the baselines.
+      </p>
+    </div>
+    <div class="column">
+      <div class="content">
+        <img src="figs/train_increase_n.jpg"
+          class="center-image"
+          width="100%"
+          alt="large scale training"/>
+      </div>
+      <p align="center">
+        <b>Scaling to \(N=5, 7\).</b> Unlike other methods, DGPPO performs similarly with more agents.
+      </p>
+    </div>
+    <!-- <p>
+      GCBF+ outperforms the baselines across all the environments because it <b>is guided by a learned GCBF</b>, <b>does not need to balance safety and performance in training</b> and <b>can work with actuator limits</b>.
+    </p> -->
+    <!--/ Main point 3 -->
+
+
+  <!-- Concurrent Work. -->
+  <div class="column"></div>
+  <h2 class="title is-3">Related Work</h2>
+  <div class="column">
+    <div class="content">
+      <div class="content has-text-justified">
+        <p>
+          This work is built on our previous work <a href="https://mit-realm.github.io/gcbfplus-website/">GCBF+</a>, which eliminates the requirement of a performant nominal policy and the knowledge of dynamics. 
+
+          For a survey of the field of learning safe control for multi-robot systems, see <a rel="survey" href="https://arxiv.org/pdf/2311.13714.pdf">this paper</a>.
+        </p>
+      </div>
+    </div>
   </div>
+  <!--/ Concurrent Work. -->
 </section>
 
 
-<section class="section" id="BibTeX">
+<!-- <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@article{TODO,
@@ -266,7 +384,7 @@ pages={TODO},
 doi={TODO}}
 }</code></pre>
   </div>
-</section>
+</section> -->
 
 
 <footer class="footer">
