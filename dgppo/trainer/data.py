@@ -8,7 +8,7 @@ from ..utils.graph import GraphsTuple
 class Rollout(NamedTuple):
     graph: GraphsTuple
     actions: Action
-    rnn_states: Array
+    rnn_states: Array  # Actor carry before processing the corresponding graph.
     rewards: Reward
     costs: Cost
     dones: Done

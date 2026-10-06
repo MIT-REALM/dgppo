@@ -133,6 +133,13 @@ class DGPPO(InforMARLLagr):
         Vh, _ = self.Vh.get_value(params["Vh"], graph, rnn_state)
         return Vh
 
+    def get_final_Vh(self, rollout: Rollout, params: Optional[Params] = None) -> Array:
+        """Bootstrap one trajectory at G_T using the actor carry entering G_T."""
+        if params is None:
+            params = self.params
+        _, final_rnn_state = self.act(tree_index(rollout.graph, -1), rollout.rnn_states[-1], params)
+        return self.get_Vh(tree_index(rollout.next_graph, -1), final_rnn_state, params)
+
     def update(self, rollout: Rollout, step: int) -> dict:
         key, self.key = jr.split(self.key)
 
@@ -219,11 +226,9 @@ class DGPPO(InforMARLLagr):
         bTah_Vh = jax.vmap(jax.vmap(ft.partial(
             self.get_Vh, params={'Vh': Vh_train_state.params})))(rollout.graph, rollout.rnn_states)
 
-        def final_Vh_fn_(graph, rnn_state):
-            _, final_rnn_state = self.act(tree_index(graph, -1), rnn_state[-1], {'policy': policy_train_state.params})
-            return self.get_Vh(tree_index(graph, -1), final_rnn_state, {'Vh': Vh_train_state.params})
-
-        final_Vh = jax.vmap(final_Vh_fn_)(rollout.next_graph, rollout.rnn_states)
+        final_Vh_fn_ = ft.partial(
+            self.get_final_Vh, params={'policy': policy_train_state.params, 'Vh': Vh_train_state.params})
+        final_Vh = jax.vmap(final_Vh_fn_)(rollout)
 
         bTp1ah_Vh = jnp.concatenate([bTah_Vh, final_Vh[:, None]], axis=1)
         assert bTp1ah_Vh.shape[:4] == (b, T + 1, a, self._env.n_cost)
@@ -261,7 +266,7 @@ class DGPPO(InforMARLLagr):
         # calculate Vh for deterministic policy
         bTah_Vh_det = jax.vmap(jax.vmap(ft.partial(
             self.get_Vh, params={'Vh': Vh_train_state.params})))(det_rollout.graph, det_rollout.rnn_states)
-        final_Vh_det = jax.vmap(final_Vh_fn_)(det_rollout.next_graph, det_rollout.rnn_states)
+        final_Vh_det = jax.vmap(final_Vh_fn_)(det_rollout)
         bTp1ah_Vh_det = jnp.concatenate([bTah_Vh_det, final_Vh_det[:, None]], axis=1)
 
         # calculate Qh for deterministic policy
@@ -280,7 +285,7 @@ class DGPPO(InforMARLLagr):
             Vl_model, Vl_info = self.update_Vl(
                 Vl_model, rollout_batch, bT_Ql[idx], bT_Vl_rnn_states[idx], rnn_chunk_ids)
             Vh_model, Vh_info = self.update_Vh(
-                Vh_model, det_rollout_batch, bTah_Qh_det[idx], rollout.rnn_states[idx], rnn_chunk_ids)
+                Vh_model, det_rollout_batch, bTah_Qh_det[idx], det_rollout.rnn_states[idx], rnn_chunk_ids)
             policy_model, policy_info = self.update_policy(policy_model, rollout_batch, bTa_A[idx], rnn_chunk_ids)
             return (Vl_model, Vh_model, policy_model), (Vl_info | Vh_info | policy_info)
 
@@ -301,7 +306,7 @@ class DGPPO(InforMARLLagr):
             bT_rnn_states: Array,
             rnn_chunk_ids: Array
     ) -> Tuple[TrainState, dict]:
-        bcT_rollout = jax.tree_map(lambda x: x[:, rnn_chunk_ids], det_rollout)  # (n_env, n_chunk, T, ...)
+        bcT_rollout = jtu.tree_map(lambda x: x[:, rnn_chunk_ids], det_rollout)  # (n_env, n_chunk, T, ...)
         bcTah_Qh_det = bTah_Qh_det[:, rnn_chunk_ids]
 
         def get_loss(Vh_params):

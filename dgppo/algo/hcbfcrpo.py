@@ -147,11 +147,8 @@ class HCBFCRPO(DGPPO):
         bTah_Vh = jax.vmap(jax.vmap(ft.partial(
             self.get_Vh, params={'Vh': None})))(rollout.graph, rollout.rnn_states)
 
-        def final_Vh_fn_(graph, rnn_state):
-            _, final_rnn_state = self.act(tree_index(graph, -1), rnn_state[-1], {'policy': policy_train_state.params})
-            return self.get_Vh(tree_index(graph, -1), final_rnn_state, {'Vh': None})
-
-        final_Vh = jax.vmap(final_Vh_fn_)(rollout.next_graph, rollout.rnn_states)
+        final_Vh_fn_ = ft.partial(self.get_final_Vh, params={'policy': policy_train_state.params, 'Vh': None})
+        final_Vh = jax.vmap(final_Vh_fn_)(rollout)
 
         bTp1ah_Vh = jnp.concatenate([bTah_Vh, final_Vh[:, None]], axis=1)
         assert bTp1ah_Vh.shape[:4] == (b, T + 1, a, self._env.n_cost)

@@ -260,9 +260,9 @@ class InforMARLLagr(InforMARL):
             bT_rnn_states: Array,
             rnn_chunk_ids: Array
     ) -> Tuple[TrainState, dict]:
-        bcT_rollout = jax.tree_map(lambda x: x[:, rnn_chunk_ids], rollout)
+        bcT_rollout = jtu.tree_map(lambda x: x[:, rnn_chunk_ids], rollout)
         bcTah_Qh = bTah_Qh[:, rnn_chunk_ids]
-        bc_rnn_state_inits = jnp.zeros_like(bT_rnn_states[:, rnn_chunk_ids[:, 0]])  # use zeros rnn_state as init
+        bc_rnn_state_inits = jax.lax.stop_gradient(bT_rnn_states[:, rnn_chunk_ids[:, 0]])
 
         def get_loss_(params):
             bcTah_Vh, bcT_Vh_rnn_states, final_Vh_rnn_states = jax.vmap(jax.vmap(
@@ -291,7 +291,7 @@ class InforMARLLagr(InforMARL):
             bTah_Vh: Array,
             bTah_Ah: Array
     ) -> Tuple[Array, dict]:
-        b_rnn_state_inits = jnp.zeros_like(rollout.rnn_states[:, 0])
+        b_rnn_state_inits = jax.lax.stop_gradient(rollout.rnn_states[:, 0])
 
         action_key = jr.fold_in(self.key, policy_train_state.step)
         bT_action_keys = jr.split(action_key, rollout.actions.shape[0] * rollout.actions.shape[1]).reshape(

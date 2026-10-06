@@ -70,11 +70,11 @@ def test_rollout(
     def body_(data, key_):
         graph, rnn_state = data
         if not stochastic:
-            action, rnn_state = actor(graph, rnn_state)
+            action, new_rnn_state = actor(graph, rnn_state)
         else:
-            action, rnn_state = actor(graph, rnn_state, key_)
+            action, new_rnn_state = actor(graph, rnn_state, key_)
         next_graph, reward, cost, done, info = env.step(graph, action)
-        return (next_graph, rnn_state), (graph, action, rnn_state, reward, cost, done, None, next_graph)
+        return (next_graph, new_rnn_state), (graph, action, rnn_state, reward, cost, done, None, next_graph)
 
     keys = jax.random.split(key, env.max_episode_steps)
     _, (graphs, actions, actor_rnn_states, rewards, costs, dones, log_pis, next_graphs) = (
