@@ -2,6 +2,7 @@ import pathlib
 import jax.numpy as jnp
 
 from abc import ABC, abstractmethod, abstractproperty
+from copy import deepcopy
 from typing import NamedTuple, Optional, Tuple
 
 from ..trainer.data import Rollout
@@ -44,7 +45,8 @@ class MultiAgentEnv(ABC):
         self._dt = dt
         if params is None:
             params = self.PARAMS
-        self._params = params
+        # Own nested parameters even when a caller reuses the same dictionary.
+        self._params = deepcopy(params)
         self._t = 0
         self._max_step = max_step
         self._area_size = area_size

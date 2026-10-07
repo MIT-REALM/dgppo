@@ -16,6 +16,7 @@ class MPEFormation(MPESpread):
     PARAMS = {
         "car_radius": 0.05,
         "comm_radius": 0.5,
+        "formation_radius": 0.5,
         "n_obs": 3,
         "obs_radius": 0.05,
         "default_area_size": 1.5,
@@ -33,6 +34,10 @@ class MPEFormation(MPESpread):
         area_size = MPEFormation.PARAMS["default_area_size"] if area_size is None else area_size
         super(MPEFormation, self).__init__(num_agents, area_size, max_step, dt, params)
         self.num_goals = 1
+        # Full observation changes communication range, not the target geometry.
+        self.formation_radius = self.params.get("formation_radius", self.PARAMS["formation_radius"])
+        if not 0 < self.formation_radius <= self.area_size / 2 - 2 * self.params["car_radius"]:
+            raise ValueError("formation_radius must be positive and fit inside the arena with agent clearance")
 
     def reset(self, key: Array) -> GraphsTuple:
         # randomly generate agent
@@ -46,7 +51,7 @@ class MPEFormation(MPESpread):
         )
 
         # generate a landmark
-        R = self.params["comm_radius"]
+        R = self.formation_radius
         landmark_key, key = jr.split(key)
         landmark = jr.uniform(landmark_key, (1, 2),
                               minval=R + 2 * self.params['car_radius'],
@@ -99,7 +104,7 @@ class MPEFormation(MPESpread):
     def get_reward(self, graph: MPEEnvGraphsTuple, action: Action) -> Reward:
         agent_states = graph.type_states(type_idx=0, n_type=self.num_agents)
         landmark = graph.type_states(type_idx=1, n_type=self.num_goals)[:, :2]
-        goals = self.landmark2goal(landmark, self.params['comm_radius'])
+        goals = self.landmark2goal(landmark, self.formation_radius)
 
         # each goal finds the nearest agent
         reward = jnp.zeros(()).astype(jnp.float32)

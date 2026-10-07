@@ -154,7 +154,8 @@ class LidarEnv(MultiAgentEnv, ABC):
         # get information from graph
         agent_states = graph.type_states(type_idx=0, n_type=self.num_agents)
         goals = graph.type_states(type_idx=1, n_type=self.num_goals)
-        obstacles = graph.env_states.obstacle if self.params['n_obs'] > 0 else None
+        # Keep reset's obstacle representation unchanged throughout the rollout.
+        obstacles = graph.env_states.obstacle
 
         # calculate next states
         action = self.clip_action(action)

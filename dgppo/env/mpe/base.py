@@ -140,7 +140,8 @@ class MPE(MultiAgentEnv, ABC):
         # get information from graph
         agent_states = graph.type_states(type_idx=0, n_type=self.num_agents)
         goals = graph.type_states(type_idx=1, n_type=self.num_goals)
-        obstacles = graph.type_states(type_idx=2, n_type=self.params["n_obs"]) if self.params["n_obs"] > 0 else None
+        # Preserve the empty obstacle array as well as nonempty obstacle states.
+        obstacles = graph.env_states.obs
 
         # calculate next graph
         action = self.clip_action(action)

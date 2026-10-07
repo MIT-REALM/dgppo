@@ -192,7 +192,7 @@ To test the learned model, use:
 python test.py --path <path-to-log>
 ```
 
-This should report the reward, min/max reward, cost, min/max cost, and the safety rate of the learned model. Also, it will generate videos of the learned model in `<path-to-log>/videos`. Use the following flags to customize the test:
+This evaluates the deterministic policy and reports the reward, min/max reward, cost, min/max cost, and safety rate. It restores the saved LiDAR ray count and observation mode, and generates videos in `<path-to-log>/videos`. Episodes start at offset zero; use `--seed` to select a different reproducible set of episodes. Use the following flags to customize the test:
 
 #### Required Flags
 `--path`: Path to the log.
@@ -204,10 +204,9 @@ This should report the reward, min/max reward, cost, min/max cost, and the safet
 - `-n`: Number of agents, default as the same as training.
 - `--obs`: Number of obstacles, default as the same as training.
 - `--env`: Environment, default as the same as training.
-- `--full-observation`: Use full observation, default False.
+- `--full-observation` / `--no-full-observation`: Override the observation mode; defaults to the saved training setting.
 - `--cpu`: Use CPU only, default False.
 - `--max-step`: Maximum number of steps for each episode, default None.
-- `--stochastic`: Use stochastic policy, default False.
 - `--log`: Log the results, default False.
 - `--seed`: Random seed, default 1234.
 - `--debug`: Debug mode.

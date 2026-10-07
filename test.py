@@ -43,7 +43,9 @@ def test(args):
         num_agents=num_agents,
         num_obs=config.obs if args.obs is None else args.obs,
         max_step=args.max_step,
-        full_observation=args.full_observation,
+        n_rays=getattr(config, "n_rays", None),
+        full_observation=(getattr(config, "full_observation", False)
+                          if args.full_observation is None else args.full_observation),
     )
 
     # create algorithm
@@ -77,27 +79,19 @@ def test(args):
         use_lstm=config.use_lstm,
     )
     algo.load(model_path, step)
-    if args.stochastic:
-        def act_fn(x, z, rnn_state, key):
-            action, _, new_rnn_state = algo.step(x, z, rnn_state, key)
-            return action, new_rnn_state
-        act_fn = jax.jit(act_fn)
-    else:
-        act_fn = algo.act
-    act_fn = jax.jit(act_fn)
+    act_fn = jax.jit(algo.act)
     init_rnn_state = algo.init_rnn_state
 
     # set up keys
     test_key = jr.PRNGKey(args.seed)
-    test_keys = jr.split(test_key, 1_000)[: args.epi]
-    test_keys = test_keys[args.offset:]
+    # Preserve the existing episode sequence for runs of up to 1,000 episodes.
+    test_keys = jr.split(test_key, max(1_000, args.epi))[: args.epi]
 
     # create rollout function
     rollout_fn = ft.partial(test_rollout,
                             env,
                             act_fn,
-                            init_rnn_state,
-                            stochastic=args.stochastic)
+                            init_rnn_state)
     rollout_fn = jax_jit_np(rollout_fn)
 
     def unsafe_mask(graph_: GraphsTuple) -> Array:
@@ -159,7 +153,7 @@ def test(args):
         env.render_video(rollout, video_path, Ta_is_unsafe, viz_opts, dpi=args.dpi)
 
 
-def main():
+def parse_args(argv=None):
     parser = argparse.ArgumentParser()
 
     # required arguments
@@ -170,8 +164,8 @@ def main():
     parser.add_argument("--epi", type=int, default=5)
     parser.add_argument("--step", type=int, default=None)
     parser.add_argument("--obs", type=int, default=None)
-    parser.add_argument("--stochastic", action="store_true", default=False)
-    parser.add_argument("--full-observation", action="store_true", default=False)
+    parser.add_argument("--full-observation", action=argparse.BooleanOptionalAction, default=None,
+                        help="Override the saved observation mode; otherwise use the training setting.")
     parser.add_argument("--debug", action="store_true", default=False)
     parser.add_argument("--cpu", action="store_true", default=False)
     parser.add_argument("--max-step", type=int, default=None)
@@ -181,11 +175,16 @@ def main():
     parser.add_argument("-n", "--num-agents", type=int, default=None)
     parser.add_argument("--seed", type=int, default=1234)
     parser.add_argument("--env", type=str, default=None)
-    parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--dpi", type=int, default=100)
 
-    args = parser.parse_args()
-    test(args)
+    args = parser.parse_args(argv)
+    if args.epi < 1:
+        parser.error("--epi must be positive")
+    return args
+
+
+def main():
+    test(parse_args())
 
 
 if __name__ == "__main__":

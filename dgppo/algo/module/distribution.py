@@ -1,7 +1,6 @@
 import tensorflow_probability.substrates.jax as tfp
 import jax.numpy as jnp
 import numpy as np
-import jax.random as jr
 
 tfd = tfp.distributions
 tfb = tfp.bijectors
@@ -34,12 +33,13 @@ class TanhTransformedDistribution(tfd.TransformedDistribution):
             jnp.where(value >= self._threshold, self._log_prob_right, super().log_prob(value)),
         )
 
-    def entropy(self, name='entropy', **kwargs):
+    def entropy(self, name='entropy', seed=None, **kwargs):
         # We return an estimation using a single sample of the log_det_jacobian.
         # We can still do some backpropagation with this estimate.
-        seed = np.random.randint(0, 102400)
+        if seed is None:
+            raise ValueError("A JAX random key must be supplied as seed for the entropy estimate")
         return self.distribution.entropy() + self.bijector.forward_log_det_jacobian(
-            self.distribution.sample(seed=jr.PRNGKey(seed)), event_ndims=0
+            self.distribution.sample(seed=seed), event_ndims=0
         )
 
     def _mode(self) -> jnp.ndarray:
